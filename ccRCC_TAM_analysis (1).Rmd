@@ -404,6 +404,6 @@ kable(df_show, caption = "Supplementary Table 2: Top marker genes per subcluster
 
 各亚群GO（BP/CC/MF）及KEGG富集分析完整结果见附件：
 
-**functional_enrichment_summary.pdf**
+[enrichment_table.pdf](https://github.com/ruada-bit/ccRCC-TAM-analysis/raw/c2d6a712856a39ee407682e044eeb8d67ea994c9/enrichment_table.pdf)
 
 Analysis complete. All figures are from original analysis. Code is for display only.
