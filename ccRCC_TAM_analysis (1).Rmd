@@ -1,21 +1,20 @@
 ---
-title: "解析肾透明细胞癌肿瘤中巨噬细的异质性及其预后的影响"
-author: "李思炎"
+title: "ccRCC TAM Analysis"
+author: "Li Siyan"
 date: "2026"
-output:
+output: 
   html_document:
     toc: true
     toc_float: true
     toc_depth: 3
     theme: flatly
-    highlight: tango
-    number_sections: true
+    number_section: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  eval    = FALSE,   # 所有代码块默认不运行
-  echo    = TRUE,    # 显示代码
+  eval    = FALSE,   
+  echo    = TRUE,    
   warning = FALSE,
   message = FALSE
 )
@@ -213,8 +212,14 @@ ego <- enrichGO(gene         = C1_genes,
 knitr::include_graphics("10_deg_heatmap.png")
 ```
 
-```{r go-plot, eval=TRUE, echo=FALSE, out.width="80%", fig.cap="图11 GO富集分析气泡图"}
-knitr::include_graphics("11_go_bubble.png")
+```{r go-bp, eval=TRUE, echo=FALSE, fig.show="hold", out.width="50%", fig.cap="图11 各亚群GO富集分析（BP）"}
+knitr::include_graphics(c(
+  "11_go_C0_BP.png",
+  "11_go_C1_BP.png",
+  "11_go_C2_BP.png",
+  "11_go_C3_BP.png",
+  "11_go_C4_BP.png"
+))
 ```
 
 ---
@@ -238,7 +243,7 @@ knitr::include_graphics("12_pseudotime_trajectory.png")
 ```
 
 ```{r pseudotime-c1q, eval=TRUE, echo=FALSE, out.width="80%", fig.cap="图13 C1Q评分沿伪时间的变化"}
-knitr::include_graphics("13_pseudotime_c1q.png")
+knitr::include_graphics("13_pseudotime_C1Q.png")
 ```
 
 ---
@@ -378,45 +383,27 @@ knitr::include_graphics("supp_06_TF_activity.png")
 ---
 
 ## 补充表1 患者来源与亚群细胞数统计 {.unnumbered}
-
 ```{r supp-patient-table, eval=TRUE, echo=FALSE}
-library(readxl)
 library(knitr)
-df_patient <- read_excel("supp_patient_subtype.xlsx")
+df_patient <- read.csv("supp_patient_subtype.csv")
 kable(df_patient,
       caption = "补充表1 三例ccRCC患者各巨噬细胞亚群细胞数分布",
       align   = "c")
 ```
-
 ---
-
 ## 补充表2 各亚群差异表达基因Top10 {.unnumbered}
 
 ```{r supp-markers-table, eval=TRUE, echo=FALSE}
 library(knitr)
-markers_full <- read.table("cluster_markers_full.txt",
-                            header = TRUE, sep = "\t")
-# 每个亚群取Top10
-top10 <- markers_full %>%
-  group_by(cluster) %>%
-  slice_max(order_by = avg_log2FC, n = 10) %>%
-  ungroup()
-
-kable(top10,
-      caption = "补充表2 各巨噬细胞亚群差异表达基因Top10（按avg_log2FC排序）",
-      digits  = 3)
+markers_raw <- readLines("cluster_markers_full.txt")
+df_show <- data.frame(Content = markers_raw)
+kable(df_show, caption = "Supplementary Table 2: Top marker genes per subcluster")
 ```
-
----
 
 ## 补充附件：功能富集汇总表 {.unnumbered}
 
 各亚群GO（BP/CC/MF）及KEGG富集分析完整结果见附件：
 
-**`functional_enrichment_summary.pdf`**
+**functional_enrichment_summary.pdf**
 
-> 该表格包含五个亚群在BP、CC、MF、KEGG四个层面的富集通路及显著性水平，共5页。
-
----
-
-*分析完成。所有结果图均来自原始分析，代码仅供参考展示，不可直接重现运行。
+Analysis complete. All figures are from original analysis. Code is for display only.
